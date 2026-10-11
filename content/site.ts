@@ -6,43 +6,20 @@ export type Link = {
 export type SectionMeta = {
   /** Anchor id used by the nav and the section element. */
   id: string;
-  /** Short name shown in the nav and the section rail. */
+  /** Section name, shown in the nav and as the section heading. */
   label: string;
-  heading: string;
-};
-
-export type Fact = {
-  label: string;
-  value: string;
 };
 
 export type Project = {
-  name: string;
-  summary: string;
-  year: string;
+  title: string;
+  description: string;
   tags: string[];
-  href?: string;
-};
-
-export type Principle = {
-  title: string;
-  body: string;
-};
-
-export type ContentItem = {
-  title: string;
-  kind: string;
-  summary: string;
-  href?: string;
-};
-
-export type StackGroup = {
-  label: string;
-  items: string[];
+  /** When set, the whole card links here and `label` is shown on it. */
+  link?: Link;
 };
 
 export type ContactLink = Link & {
-  /** Human readable form of the destination, for example the address itself. */
+  /** Human readable form of the destination, for example the number itself. */
   value: string;
 };
 
@@ -58,150 +35,152 @@ export type SiteContent = {
   hero: {
     id: string;
     name: string;
-    role: string;
-    headline: string;
-    intro: string;
-    primaryCta: Link;
-    secondaryCta: Link;
+    title: string;
+    tagline: string;
   };
   about: SectionMeta & {
-    paragraphs: string[];
-    facts: Fact[];
+    body: string;
   };
   shipped: SectionMeta & {
-    intro: string;
     projects: Project[];
   };
   howIWork: SectionMeta & {
-    principles: Principle[];
+    body: string;
   };
   content: SectionMeta & {
-    intro: string;
-    items: ContentItem[];
+    body: string;
+    cta: Link;
   };
   stack: SectionMeta & {
-    intro: string;
-    groups: StackGroup[];
+    items: string[];
   };
   contact: SectionMeta & {
-    body: string;
     links: ContactLink[];
   };
-  footer: {
-    note: string;
-  };
+};
+
+const hero: SiteContent["hero"] = {
+  id: "top",
+  name: "Aditya Singh",
+  title: "AI Engineer",
+  tagline:
+    "I ship production LLM agents, voice AI and multi-tenant platforms, and I run multiple AI coding agents in parallel every day.",
 };
 
 export const site: SiteContent = {
   meta: {
-    title: "Aditya | Developer",
-    description:
-      "Aditya is a developer who builds small, useful software. What I have shipped, how I work, and how to reach me.",
+    title: `${hero.name} | ${hero.title}`,
+    description: hero.tagline,
   },
   ui: {
     skipToContent: "Skip to content",
     navLabel: "Sections",
   },
-  hero: {
-    id: "top",
-    name: "Aditya",
-    role: "Developer",
-    headline: "I build small, useful software and ship it.",
-    intro:
-      "This is my corner of the web: what I have shipped, how I work, and how to reach me.",
-    primaryCta: { label: "See what I shipped", href: "#shipped" },
-    secondaryCta: { label: "Get in touch", href: "#contact" },
-  },
+  hero,
   about: {
     id: "about",
     label: "About",
-    heading: "A developer who likes short feedback loops.",
-    paragraphs: [
-      "I am Aditya. I like software that does one job well, and I would rather ship a small thing this week than plan a large thing all quarter.",
-      "Most of my work is in TypeScript. I plan it as small tickets, let AI coding agents handle much of the build, and stay close to the review so I know exactly what goes out.",
-    ],
-    facts: [
-      { label: "Primary language", value: "TypeScript" },
-      { label: "Workflow", value: "Small tickets, reviewed diffs" },
-      { label: "Default", value: "Ship, then refine" },
-    ],
+    body: "Independent AI engineer working remotely with teams across the US, Canada, UAE and India. I own deployments end to end: scoping, architecture, code, infra, and staying until it works in production. Based in New Delhi, India.",
   },
   shipped: {
     id: "shipped",
     label: "Shipped",
-    heading: "Things that made it out the door.",
-    intro: "Finished work only. Each entry is live or merged.",
     projects: [
       {
-        name: "This site",
-        summary:
-          "A single page built with the App Router. Every word on it comes from one typed content file, and the design system uses a single accent color.",
-        year: "2026",
-        tags: ["Next.js", "TypeScript", "Tailwind CSS"],
+        title: "Skye Studio",
+        description:
+          "AI motion-graphics video platform. Website, screenshots or recordings in, launch videos out. Built with parallel backend and frontend Claude Code agents coordinated through a shared API contract.",
+        tags: ["HyperFrames", "GSAP", "Claude", "Supabase", "Stripe", "Modal"],
+      },
+      {
+        title: "Voice Agent Operations Platform",
+        description:
+          "Multi-tenant dashboard for AI phone agents with timezone-aware callbacks, voicemail retries, SSE live updates and DNC compliance. One client system processed 1,700+ leads.",
+        tags: ["Next.js", "Supabase", "VAPI", "Retell AI", "Twilio"],
+      },
+      {
+        title: "VAPI to Retell AI migration",
+        description: "Moved live outbound calling campaigns with zero downtime.",
+        tags: ["Voice AI", "Prompt engineering"],
+      },
+      {
+        title: "Clove",
+        description:
+          "AI assistant inside WhatsApp working across email, calendar, files and CRM, with a user-defined approval policy.",
+        tags: ["WhatsApp", "LLM agents"],
+        link: { label: "askclove.com", href: "https://askclove.com" },
+      },
+      {
+        title: "SOVA",
+        description:
+          "Privacy-first subscription tracker Chrome extension, published on the Chrome Web Store.",
+        tags: ["Chrome MV3", "Next.js"],
+      },
+      {
+        title: "Multi-tenant WhatsApp bot SaaS",
+        description: "Deployed for a 16-branch operator.",
+        tags: ["whatsapp-web.js", "Supabase"],
       },
     ],
   },
   howIWork: {
     id: "how-i-work",
-    label: "How I work",
-    heading: "A few habits I hold on to.",
-    principles: [
-      {
-        title: "Small tickets",
-        body: "Every piece of work gets a written ticket with a clear outcome. If the outcome does not fit in a few sentences, the ticket gets split.",
-      },
-      {
-        title: "Agents build, I review",
-        body: "AI coding agents do much of the typing. I read the diff, run the build, and decide what merges.",
-      },
-      {
-        title: "Content apart from code",
-        body: "Copy lives in one typed file, so changing a sentence never means touching a component.",
-      },
-    ],
+    label: "How I work with agents",
+    body: "I split work across parallel agents with clear contracts, review their branches like a tech lead, and write project context so agents stop guessing. This site was built with Fredrin, ticket by ticket in parallel worktrees.",
   },
   content: {
     id: "content",
     label: "Content",
-    heading: "What I put out in public.",
-    intro: "Build logs and notes, newest first.",
-    items: [
-      {
-        title: "Building this site",
-        kind: "Build log",
-        summary:
-          "The commit history of this site is the first thing published here: a Next.js scaffold, a typed content file, and a dark design system with one accent color.",
-      },
-    ],
+    body: "I run a YouTube channel, @AdiXzenix, where I break down how I design and ship real AI agent systems.",
+    cta: { label: "Watch on YouTube", href: "https://youtube.com/@AdiXzenix" },
   },
   stack: {
     id: "stack",
     label: "Stack",
-    heading: "Tools I reach for.",
-    intro: "This is what the site you are reading runs on.",
-    groups: [
-      { label: "Framework", items: ["Next.js", "React"] },
-      { label: "Language", items: ["TypeScript"] },
-      { label: "Styling", items: ["Tailwind CSS"] },
-      { label: "Hosting", items: ["Vercel"] },
-      { label: "Workflow", items: ["Git", "Fredrin", "Claude Code"] },
+    items: [
+      "TypeScript",
+      "Python",
+      "Next.js",
+      "Node.js",
+      "Supabase",
+      "PostgreSQL",
+      "Claude API",
+      "OpenAI API",
+      "VAPI",
+      "Retell AI",
+      "Twilio",
+      "WhatsApp Business API",
+      "Docker",
+      "Vercel",
+      "Coolify",
+      "git worktrees",
     ],
   },
   contact: {
     id: "contact",
     label: "Contact",
-    heading: "Say hello.",
-    body: "Email is the best way to reach me. I read everything and reply to anything specific.",
     links: [
       {
-        label: "Email",
-        value: "aditya@autozenixai.com",
-        href: "mailto:aditya@autozenixai.com",
+        label: "Phone",
+        value: "+91 88510 47924",
+        href: "tel:+918851047924",
+      },
+      {
+        label: "LinkedIn",
+        value: "linkedin.com/in/adityaautozenix",
+        href: "https://linkedin.com/in/adityaautozenix",
+      },
+      {
+        label: "GitHub",
+        value: "github.com/adixzenix",
+        href: "https://github.com/adixzenix",
+      },
+      {
+        label: "YouTube",
+        value: "youtube.com/@AdiXzenix",
+        href: "https://youtube.com/@AdiXzenix",
       },
     ],
-  },
-  footer: {
-    note: "Built with Next.js, TypeScript, and Tailwind CSS.",
   },
 };
 

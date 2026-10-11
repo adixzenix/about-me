@@ -8,34 +8,16 @@ export function Content() {
   return (
     <Section meta={content} index={4}>
       <Reveal>
-        <p className="max-w-prose text-muted">{content.intro}</p>
+        <p className="max-w-prose text-lead text-muted">{content.body}</p>
       </Reveal>
-      <ul className="mt-stack border-t border-line">
-        {content.items.map((item, i) => (
-          <li key={item.title} className="border-b border-line">
-            <Reveal delay={i * 80}>
-              <article className="py-6">
-                <p className="font-mono text-label uppercase text-subtle">
-                  {item.kind}
-                </p>
-                <h3 className="mt-2 text-lg font-medium">
-                  {item.href ? (
-                    <a
-                      href={item.href}
-                      className="underline decoration-line underline-offset-4 transition-colors hover:text-accent hover:decoration-accent"
-                    >
-                      {item.title}
-                    </a>
-                  ) : (
-                    item.title
-                  )}
-                </h3>
-                <p className="mt-2 max-w-prose text-muted">{item.summary}</p>
-              </article>
-            </Reveal>
-          </li>
-        ))}
-      </ul>
+      <Reveal delay={80} className="mt-stack">
+        <a
+          href={content.cta.href}
+          className="inline-block bg-accent px-5 py-3 font-mono text-sm font-medium text-bg transition-opacity hover:opacity-85"
+        >
+          {content.cta.label}
+        </a>
+      </Reveal>
     </Section>
   );
 }

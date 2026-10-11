@@ -8,12 +8,9 @@ export function Contact() {
   return (
     <Section meta={contact} index={6}>
       <Reveal>
-        <p className="max-w-prose text-lead text-muted">{contact.body}</p>
-      </Reveal>
-      <Reveal delay={80} className="mt-stack">
         <ul className="border-t border-line">
           {contact.links.map((link) => (
-            <li key={link.href} className="border-b border-line">
+            <li key={link.label} className="border-b border-line">
               <a
                 href={link.href}
                 className="group grid gap-x-gutter gap-y-1 py-4 sm:grid-cols-[10rem_minmax(0,1fr)]"
