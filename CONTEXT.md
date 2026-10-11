@@ -21,6 +21,7 @@ Working context for the About Me site. Read this before changing code or copy.
 - `/app` holds routing only: the root layout, the home page, and global styles.
 - Components live in `/components`. One component per file, named exports, PascalCase file names.
 - All copy lives in `/content/site.ts`. Components never hard code visible text, link targets, or labels. They import `site` and render it.
+- Search and social metadata (title, description, site URL) lives in `/content/seo.ts`. The root layout, the generated Open Graph image, `robots` and `sitemap` read it. Set `NEXT_PUBLIC_SITE_URL` to the production origin.
 - `/content/site.ts` exports the `SiteContent` type next to the data. Change the type first when a section needs a new field.
 - Import across folders with the `@/` alias, for example `@/content/site`.
 
@@ -69,6 +70,7 @@ Type and spacing tokens use `clamp()`, so they scale with the viewport without b
 ## Animation
 
 - Wrap content in `Reveal` from `/components/Reveal.tsx` for a subtle fade and rise the first time it scrolls into view.
+- Above the fold content (the hero) uses `<Reveal eager>`, a CSS only rise that starts on first paint. It is never transparent and does not wait for hydration, which keeps the largest contentful paint fast.
 - The hidden starting state is declared in CSS inside `prefers-reduced-motion: no-preference` and `scripting: enabled`. Visitors who ask for reduced motion, or who browse without JavaScript, see static content.
 - Keep motion short and small. No parallax, no looping animation.
 

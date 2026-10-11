@@ -7,6 +7,12 @@ type RevealProps = {
   className?: string;
   /** Stagger in milliseconds, applied as a transition delay. */
   delay?: number;
+  /**
+   * For content above the fold. Plays a CSS only rise on first paint instead
+   * of hiding the content until hydration, so the largest paint is not held
+   * back by scripts.
+   */
+  eager?: boolean;
 };
 
 /**
@@ -14,13 +20,18 @@ type RevealProps = {
  * The hidden state lives in CSS behind `prefers-reduced-motion: no-preference`,
  * so visitors who ask for less motion get static content.
  */
-export function Reveal({ children, className, delay = 0 }: RevealProps) {
+export function Reveal({
+  children,
+  className,
+  delay = 0,
+  eager = false,
+}: RevealProps) {
   const ref = useRef<HTMLDivElement>(null);
   const [visible, setVisible] = useState(false);
 
   useEffect(() => {
     const node = ref.current;
-    if (!node) return;
+    if (!node || eager) return;
 
     if (typeof IntersectionObserver === "undefined") {
       setVisible(true);
@@ -39,7 +50,18 @@ export function Reveal({ children, className, delay = 0 }: RevealProps) {
 
     observer.observe(node);
     return () => observer.disconnect();
-  }, []);
+  }, [eager]);
+
+  if (eager) {
+    return (
+      <div
+        className={className ? `reveal-eager ${className}` : "reveal-eager"}
+        style={delay ? { animationDelay: `${delay}ms` } : undefined}
+      >
+        {children}
+      </div>
+    );
+  }
 
   return (
     <div
