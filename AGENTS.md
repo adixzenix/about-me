@@ -4,16 +4,25 @@ Conventions for AI coding agents working in **About Me**. This file is the
 canonical entry point under the [AGENTS.md](https://agents.md) standard, and it
 is the first thing a Fredrin Worker reads.
 
-It is a stub — the first ticket on the board fills it in.
-
 ## Project
 
-_What is this, in a sentence or two?_
+A single page personal site built with Next.js (App Router), TypeScript, and
+Tailwind CSS, deployable on Vercel. Read [CONTEXT.md](./CONTEXT.md) for the
+stack, folder conventions, design system, and content rules.
 
 ## Commands
 
-_How do you run it, test it, and build it?_
+- `npm install` installs dependencies
+- `npm run dev` starts the dev server
+- `npm run build` creates the production build and type checks
+- `npm run typecheck` runs the TypeScript compiler without emitting files
+
+There is no test suite or linter yet.
 
 ## Conventions
 
-_Anything a new contributor would get wrong on their first try._
+- Components live in `/components`.
+- All copy lives in `/content/site.ts`. Never hard code visible text in a component.
+- One accent color only (`--color-accent`). Use the design tokens in `app/globals.css`.
+- No placeholder text and no em dashes in site copy or in `CONTEXT.md`.
+- Animations must respect `prefers-reduced-motion`.

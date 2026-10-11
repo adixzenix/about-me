@@ -1,0 +1,107 @@
+@import "tailwindcss";
+
+/*
+ * Design system tokens. Dark only, one accent color.
+ * Tailwind turns each token into utilities (bg-surface, text-muted, py-section, text-display).
+ */
+@theme inline {
+  /* Color: neutrals plus a single accent */
+  --color-bg: oklch(0.155 0.006 265);
+  --color-surface: oklch(0.195 0.007 265);
+  --color-line: oklch(0.29 0.008 265);
+  --color-fg: oklch(0.95 0.004 265);
+  --color-muted: oklch(0.72 0.01 265);
+  --color-subtle: oklch(0.58 0.012 265);
+  --color-accent: oklch(0.83 0.14 78);
+
+  /* Typography */
+  --font-sans: var(--font-geist-sans), ui-sans-serif, system-ui, sans-serif;
+  --font-mono: var(--font-geist-mono), ui-monospace, "SF Mono", Menlo, monospace;
+
+  --text-label: 0.75rem;
+  --text-label--line-height: 1rem;
+  --text-label--letter-spacing: 0.08em;
+  --text-body: 1rem;
+  --text-body--line-height: 1.7;
+  --text-lead: clamp(1.0625rem, 0.98rem + 0.4vw, 1.25rem);
+  --text-lead--line-height: 1.6;
+  --text-title: clamp(1.5rem, 1.2rem + 1.4vw, 2.125rem);
+  --text-title--line-height: 1.2;
+  --text-title--letter-spacing: -0.02em;
+  --text-display: clamp(2.25rem, 1.3rem + 4.6vw, 4.5rem);
+  --text-display--line-height: 1.05;
+  --text-display--letter-spacing: -0.035em;
+
+  /* Spacing */
+  --spacing-gutter: clamp(1.25rem, 0.5rem + 3.5vw, 3rem);
+  --spacing-section: clamp(4rem, 2.5rem + 7vw, 8rem);
+  --spacing-stack: clamp(1.5rem, 1.2rem + 1.2vw, 2.5rem);
+
+  /* Layout */
+  --container-page: 68rem;
+  --container-prose: 38rem;
+}
+
+@layer base {
+  html {
+    background-color: var(--color-bg);
+    color-scheme: dark;
+    scroll-padding-top: 5rem;
+  }
+
+  body {
+    background-color: var(--color-bg);
+    color: var(--color-fg);
+    font-family: var(--font-sans);
+    font-size: var(--text-body);
+    line-height: var(--text-body--line-height);
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+
+  ::selection {
+    background-color: var(--color-accent);
+    color: var(--color-bg);
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--color-accent);
+    outline-offset: 3px;
+    border-radius: 2px;
+  }
+
+  h1,
+  h2,
+  h3 {
+    text-wrap: balance;
+  }
+
+  p {
+    text-wrap: pretty;
+  }
+}
+
+/*
+ * Scroll-in animation. Content is only hidden when motion is welcome and
+ * scripting is on, so reduced-motion and no-JS visitors always see it.
+ */
+@media (prefers-reduced-motion: no-preference) {
+  html {
+    scroll-behavior: smooth;
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) and (scripting: enabled) {
+  .reveal {
+    opacity: 0;
+    transform: translateY(0.75rem);
+    transition:
+      opacity 600ms cubic-bezier(0.22, 1, 0.36, 1),
+      transform 600ms cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  .reveal[data-visible="true"] {
+    opacity: 1;
+    transform: none;
+  }
+}
